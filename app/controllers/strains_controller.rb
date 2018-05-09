@@ -1,12 +1,30 @@
 class StrainsController < ApplicationController
   def index
-    @strains = Strain.all
+    @strains = Strain.where(nil)
+    @strains = @strains.search_by_effects(params[:effects])  if params[:effects].present?
+    @strains = @strains.search_by_flavors(params[:flavors])  if params[:flavors].present?
+    @strains = @strains.search_by_rating(params[:rating])  if params[:rating].present?
     json_response(@strains)
   end
 
   def show
     @strain = Strain.find(params[:id])
     json_response(@strain)
+  end
+
+  def create
+    @strain = Strain.create(quote_params)
+    json_response(@strain)
+  end
+
+  def update
+    @strain = Strain.find(params[:id])
+    @strain.update(quote_params)
+  end
+
+  def destroy
+    @strain = Strain.find(params[:id])
+    @strain.destroy
   end
 
 private

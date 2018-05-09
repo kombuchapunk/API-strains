@@ -10,12 +10,14 @@ require 'csv'
 Strain.destroy_all
 Effect.destroy_all
 Flavor.destroy_all
+Rating.destroy_all
 csv_text = File.read(Rails.root.join('lib', 'seeds', 'cannabis.csv'))
 csv = CSV.parse(csv_text, :headers => true, :encoding => 'ISO-8859-1')
 i = 0
 csv.each do |row|
   strain =  row.to_hash
-  new_strain = Strain.create(:name => strain["Strain"], :rating => strain["Rating"], :description => strain["Description"], :type_name => strain["Type"])
+  new_strain = Strain.create(:name => strain["Strain"], :description => strain["Description"], :type_name => strain["Type"], :strain_effects => strain["Effects"], :strain_flavors => strain["Flavor"])
+  new_strain.ratings.create(:rating => strain["Rating"])
   strain["Effects"].split(',').each do |effect|
     new_strain.effects.push(Effect.find_or_create_by(name: effect))
   end
