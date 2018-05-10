@@ -13,13 +13,13 @@ class StrainsController < ApplicationController
   end
 
   def create
-    @strain = Strain.create(quote_params)
+    @strain = Strain.create(strain_params)
     json_response(@strain)
   end
 
   def update
     @strain = Strain.find(params[:id])
-    @strain.update(quote_params)
+    @strain.update(strain_params)
   end
 
   def destroy
@@ -28,6 +28,9 @@ class StrainsController < ApplicationController
   end
 
 private
+  def strain_params
+    params.permit(:name, :description, :strain_flavors, :strain_effects, :type_name)
+  end
   def json_response(object)
     render json: object, status: :ok
   end

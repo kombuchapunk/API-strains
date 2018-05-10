@@ -18,12 +18,6 @@ csv.each do |row|
   strain =  row.to_hash
   new_strain = Strain.create(:name => strain["Strain"], :description => strain["Description"], :type_name => strain["Type"], :strain_effects => strain["Effects"], :strain_flavors => strain["Flavor"])
   new_strain.ratings.create(:rating => strain["Rating"])
-  strain["Effects"].split(',').each do |effect|
-    new_strain.effects.push(Effect.find_or_create_by(name: effect))
-  end
-  strain["Flavor"].split(',').each do |flavor|
-    new_strain.flavors.push(Flavor.find_or_create_by(name: flavor))
-  end
   puts new_strain.effects
 
 end

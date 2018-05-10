@@ -10,6 +10,8 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "action_cable/engine"
+require 'rack'
+require 'rack/cors'
 # require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
@@ -22,6 +24,16 @@ module StrainsApi
     # Initialize configuration defaults for originally generated Rails version.
 
     config.autoload_paths << Rails.root.join('lib')
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*',
+                 :headers => :any,
+                 :expose  => ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+                 :methods => [:get, :post, :options, :delete, :put, :patch]
+      end
+    end
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
