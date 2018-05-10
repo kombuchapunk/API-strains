@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     resources :effects, :flavors, :ratings
   end
 
+  resources :users, only: [:create] 
+
   post 'authenticate', to: 'authentication#authenticate'
 
 end

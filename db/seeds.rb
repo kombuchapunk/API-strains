@@ -16,8 +16,8 @@ csv = CSV.parse(csv_text, :headers => true, :encoding => 'ISO-8859-1')
 i = 0
 csv.each do |row|
   strain =  row.to_hash
-  new_strain = Strain.create(:name => strain["Strain"], :description => strain["Description"], :type_name => strain["Type"], :strain_effects => strain["Effects"], :strain_flavors => strain["Flavor"])
-  new_strain.ratings.create(:rating => strain["Rating"])
-  puts new_strain.effects
-
+  new_strain = Strain.new(:name => strain["Strain"], :description => strain["Description"], :type_name => strain["Type"], :strain_effects => strain["Effects"], :strain_flavors => strain["Flavor"])
+  if new_strain.save
+    new_strain.ratings.create(:rating => strain["Rating"])
+  end
 end

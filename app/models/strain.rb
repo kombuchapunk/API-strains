@@ -1,4 +1,5 @@
 class Strain < ApplicationRecord
+  validates :name, uniqueness: true
   has_and_belongs_to_many :effects
   has_and_belongs_to_many :flavors
   has_many :ratings
